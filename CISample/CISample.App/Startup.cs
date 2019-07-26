@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.DependencyInjection;
+    using System.Reflection;
 
     public class Startup
     {
@@ -20,7 +21,8 @@
 
             app.Run(async (context) =>
             {
-                var buildNumber = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
+                var buildNumber = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+
                 await context.Response.WriteAsync($"Build Number: {buildNumber}");
             });
         }
